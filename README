@@ -3,6 +3,8 @@ DynamicGrids(wando)
 
 #在你的Gemfile 添加上composite_primary_keys
 gem 'composite_primary_keys', '=3.1.0'
+#获取需要的辅助插件
+plugins provider
 
 #创建dynamic_grid 需要用到的数据
 rails generate create_dynamic_grid
@@ -24,6 +26,14 @@ rails generate create_dynamic_grid
   def dynamic_grids
     dynamic_grids Model,grid_name,option
   end
+
+#跨表获取字段，倘若在需要获取的表头项不在表内，请参考provider使用方式来赋值Headers的index
+order 表
+Order(id: integer, name: string)  
+order_item 表
+order_item(id: integer, order_id: integer, name: string)
+#通过order需要获取order_item的name,header的写法 
+Header.create(:index => "order_item/name")
 
 
 Example
